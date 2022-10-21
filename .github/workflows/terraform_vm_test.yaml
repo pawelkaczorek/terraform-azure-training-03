@@ -1,8 +1,8 @@
-name: 'Terraform VM Test'
+name: 'Terraform CICD'
 on:
   push:
     branches:
-    - main
+    - master
     paths:
     - 'modules/terraform-azure-vm/*'
     - '!modules/terraform-azure-vm/README.md'
@@ -10,9 +10,9 @@ on:
     - '!examples/vm/README.md'
 jobs:
   terraform_plan:
-    name: 'Terraform Test'
+    name: 'Terraform CI'
     env:
-      TF_CLI_ARGS: '-no-color'
+      TF_CLI_ARGS: '-no-color -backend-config=backend'
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -38,7 +38,40 @@ jobs:
       run: terraform init
     - name: Terraform Validate
       run: terraform validate
+    - name: Terraform Plan
+      run: terraform plan -var-file=fixtures.tfvars
+      env:
+        TF_VAR_env: prod
+  terraform_apply:
+    name: 'Terraform CD'
+    needs: terraform_plan
+    env:
+      TF_CLI_ARGS: '-no-color'
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+    runs-on: ubuntu-latest
+    environment: production
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: 'examples/vm'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15
+
+    - name: Terraform Fmt
+      run: terraform fmt -check
+    - name: Terraform Init
+      run: terraform init
+    - name: Terraform Validate
+      run: terraform validate
     - name: Terraform Apply
-      run: terraform apply -auto-approve
-    - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: terraform apply -auto-approve -var-file=fixtures.tfvars

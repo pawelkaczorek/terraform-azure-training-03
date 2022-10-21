@@ -37,10 +37,10 @@ resource "azurerm_key_vault" "lz" {
 
     secret_permissions = [
       "Set",
-//      "get",
+      "Get",
       "List",
-//      "delete",
-//       "purge",
+      "Delete",
+      "Purge",
     ]
   }
   access_policy {
@@ -48,11 +48,11 @@ resource "azurerm_key_vault" "lz" {
     object_id = var.spn_object_id
 
     secret_permissions = [
-//      "set",
+      "Set",
       "Get",
-//      "list",
-//      "delete",
-//     "purge",
+      "List",
+      "Delete",
+      "Purge",
     ]
   }
 }

@@ -26,7 +26,17 @@ resource "azurerm_network_interface" "this" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.this.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.this.id
+
   }
+}
+
+resource "azurerm_public_ip" "this" {
+  name                    = "pip-${var.prefix}-${var.environment}-001"
+  location                = azurerm_resource_group.this.location
+  resource_group_name     = azurerm_resource_group.this.name
+  allocation_method       = "Dynamic"
+  idle_timeout_in_minutes = 30
 }
 
 resource "azurerm_windows_virtual_machine" "this" {

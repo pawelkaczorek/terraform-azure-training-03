@@ -49,7 +49,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   network_interface_ids = [
     azurerm_network_interface.this.id,
   ]
-//
+
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"

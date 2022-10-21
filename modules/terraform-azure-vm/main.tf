@@ -56,7 +56,7 @@ resource "azurerm_windows_virtual_machine" "this" {
     sku       = "2016-Datacenter"
     version   = "latest"
   }
-
+//
   os_disk {
     storage_account_type = "Standard_LRS"
     caching              = "ReadWrite"

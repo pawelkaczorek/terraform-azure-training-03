@@ -10,4 +10,5 @@ output "resource_group_location" {
 
 output "id" {
   value = module.vm.id
+  //aa
 }

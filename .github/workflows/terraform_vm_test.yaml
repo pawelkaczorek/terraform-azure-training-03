@@ -2,7 +2,7 @@ name: 'Terraform CICD'
 on:
   push:
     branches:
-    - master
+    - main
     paths:
     - 'modules/terraform-azure-vm/*'
     - '!modules/terraform-azure-vm/README.md'

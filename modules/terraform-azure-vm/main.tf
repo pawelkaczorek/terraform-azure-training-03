@@ -55,6 +55,7 @@ resource "azurerm_windows_virtual_machine" "this" {
     offer     = "WindowsServer"
     sku       = "2016-Datacenter"
     version   = "latest"
+    //
   }
 
   os_disk {

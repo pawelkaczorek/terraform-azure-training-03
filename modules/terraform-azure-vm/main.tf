@@ -16,7 +16,7 @@ resource "azurerm_subnet" "this" {
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = ["10.0.2.0/24"]
 }
-
+//
 resource "azurerm_network_interface" "this" {
   name                = "nic-${var.prefix}-vm-${var.environment}-001"
   resource_group_name = azurerm_resource_group.this.name

@@ -40,7 +40,7 @@ resource "azurerm_key_vault" "lz" {
       "get",
       "list",
       "delete",
-      "purge"
+ //     "purge",
     ]
   }
   access_policy {
@@ -52,7 +52,7 @@ resource "azurerm_key_vault" "lz" {
       "get",
       "list",
       "delete",
-      "purge"
+//     "purge",
     ]
   }
 }

@@ -32,7 +32,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.15
-    - name: Terraform Fmt
+    - name: Terraform Fmt -check
       run: terraform fmt 
     - name: Terraform Init
       run: terraform init
